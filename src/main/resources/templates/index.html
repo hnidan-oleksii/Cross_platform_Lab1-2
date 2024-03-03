@@ -4,16 +4,69 @@
       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello Spring!</title>
+    <title th:text="${pageTitle}">Hello Spring!</title>
 </head>
 <body>
-<h1 th:text="${pageTitle}"></h1>
-<div>
+    <!-- Map -->
+    <h1 th:text="${greeting}"></h1>
+    <div>
+        <h2>Capitals:</h2>
+        <ul>
+            <li th:each="capital : ${capitals}">
+                <span th:text="${capital.key} + ': ' + ${capital.value}"></span>
+            </li>
+        </ul>
+    </div>
+    <!-- List -->
+    <div>
+        <h2>Programming Languages:</h2>
+        <ul>
+            <li th:each="language : ${programmingLanguages}">
+                <span th:text="${language}"></span>
+            </li>
+        </ul>
+    </div>
+    <!-- Array -->
+    <div>
+        <h2>Languages:</h2>
+        <ul>
+            <li th:each="language : ${languages}">
+                <span th:text="${language}"></span>
+            </li>
+        </ul>
+    </div>
+    <!-- Selected Object -->
+    <div th:object="${selectedUser}">
+        <h2>Selected User:</h2>
+        <p th:text="'Name: ' + *{name}"></p>
+        <p th:text="'Email: ' + *{email}"></p>
+    </div>
+    <!-- Links -->
+    <a th:href="@{https://docs.oracle.com/en/java/}">link1</a>
+    <a th:href="@{https://www.google.com/search(q=${languages[0]})}">link2</a>
+    <!-- Literal Substitutions -->
+    <p th:text="'Literal ' + 'substitution'"></p>
+    <p th:text="|Literal + substitution|"></p>
+    <!-- Expression Inlining -->
+    <p>[[${greeting}]]</p>
+    <!-- Thymeleaf Attributes -->
+    <!-- text -->
+    <span th:text="${greeting}"></span>
+    <!-- id -->
+    <div th:id="${'divId'}"></div>
+    <!-- Conditional inclusion -->
+    <div th:if="${not #lists.isEmpty(languages)}">
+        Languages are not empty.
+    </div>
+    <!-- Conditional exclusion -->
+    <div th:unless="${#lists.isEmpty(languages)}">
+        Languages are not empty.
+    </div>
+    <!-- Iteration -->
     <ul>
-        <li th:each="language : ${languages}">
-            <span th:text="${language}"></span>
-        </li>
+        <li th:each="language : ${languages}" th:text="${language}"></li>
     </ul>
-</div>
+    <!-- Preprocessing -->
+    <p th:text="${'Preprocessing: ' + '__${greeting}__'}"></p>
 </body>
 </html>
